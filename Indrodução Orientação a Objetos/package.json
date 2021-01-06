@@ -1,0 +1,12 @@
+{
+  "name": "introducao_orientacao_objetos",
+  "version": "1.0.0",
+  "description": "projeto alura",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Z3R0",
+  "license": "ISC",
+  "type": "module"
+}

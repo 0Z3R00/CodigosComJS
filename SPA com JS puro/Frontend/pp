@@ -1,0 +1,97 @@
+    <form id="inscricaoSede" name="inscricaoSede" method="post" onsubmit="">
+                                <div class="panel-body">
+                                    '. load_programacao() .'
+                                    <hr />
+                                    <div class="row" style="padding: 10px 25px 10px;">
+                                        <div class="panel panel-warning">
+                                            <div class="panel-heading">
+                                                <center>Formulário de Inscrição</center>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="col-sm-6 form-group">
+                                                    Nome: <input class="form-control" id="name" name="name"
+                                                        placeholder="Nome Completo" type="text" required />
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    E-mail: <input class="form-control" id="email" name="email"
+                                                        placeholder="E-mail" type="email" required />
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    CPF: <input class="form-control" id="cpf" name="cpf"
+                                                        placeholder="cpf" type="text" maxlength="14" required
+                                                        onKeyDown="Mascara(this,Cpf);" onKeyPress="Mascara(this,Cpf);"
+                                                        onKeyUp="Mascara(this,Cpf);" />
+                                                </div>
+
+                                                <div class="col-sm-6 form-group">
+                                                    Celular: <input class="form-control" id="celular" name="celular"
+                                                        placeholder="celular" type="text" maxlength="15" required
+                                                        onKeyDown="Mascara(this,mtel);" onKeyPress="Mascara(this,mtel);"
+                                                        onKeyUp="Mascara(this,mtel);" />
+                                                </div>
+												
+												 
+												<div class="col-sm-4 form-group">
+													<label class="" for="">Como Ficou sabendo do evento?</label>
+													<select class="custom-select form-control" id="inlineFormCustomSelect"
+														aria-placeholder="Como Ficou sabendo do evento?" name="como_soube" required>
+														<option disabled selected value>Selecione</option>
+														<option value="Portal do CRA-SP">Portal do CRA-SP</option>
+														<option value="Redes Sociais do CRA-SP">Redes Sociais do CRA-SP</option>
+														<option value="E-mail Marketing">E-mail Marketing</option>
+														<option value="Revista Administrador Profissional">Revista Administrador Profissional</option>
+														<option value="Indicação de Coordenadores ou Professores">Indicação de Coordenadores ou Professores
+														</option>
+														<option value="Indicação de amigos">Indicação de amigos</option>
+														<option value="Eventos realizados no CRA-sp">Eventos realizados no CRA-SP</option>
+													</select>
+												</div>
+												<div class="col-sm-4 form-group">
+													<label  for="">Qual sua Formação?</label>
+													<select class="custom-select form-control" id="inlineFormCustomSelect" aria-placeholder="Qual sua Formação?"
+														name="formacao" required>
+														<option disabled selected value>Selecione</option>
+														<option value="Profissional de Administração - Bacharel">Profissional de Administração - Bacharel
+														</option>
+														<option value="Profissional de Administração - Tecnólogo">Profissional de Administração - Tecnólogo
+														</option>
+														<option value="Profissional de outra área">Profissional de outra área</option>
+														<option value="Estudante de Administração - Curso Técnicol">Estudante de Administração - Curso
+															Técnico</option>
+														<option value="Estudante de Administração - Tecnólogo">Estudante de Administração - Tecnólogo
+														</option>
+														<option value="Estudante de Administração - Bacharelado">Estudante de Administração - Bacharelado
+														</option>
+														<option value="Estudante de outra área">Estudante de outra área</option>
+													</select>
+												</div>
+												<div class="col-sm-4 form-group">
+													<label class="" for="">Possui registro do CRA-SP?</label>
+													<select class="custom-select form-control" id="inlineFormCustomSelect"
+														aria-placeholder="Possui registro do CRA-SP?" name="possui_registro" required>
+														<option disabled selected value>Selecione</option>
+														<option value="Sim (Registro Profissional)">Sim (Registro Profissional)</option>
+														<option value="Sim (Carteira de Estudante)">Sim (Carteira de Estudante)</option>
+														<option value="Não">Não</option>
+													</select>
+												</div>
+
+												<div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content" style="max-width: 80vw;">
+        <center>
+            <h3>Você confirma a sua inscrição?</h3>
+            <h5>
+                <p><strong>Lembre-se que o nome e e-mail serão utilizados para emissão do seu certificado de participação.</strong></p>
+            </h5>
+            <button type="submit" id="btnConfirmar" type="button" class="btn btn-success">Eu confirmo</button>
+            <button  id="btnRevisar" class="btn btn-danger">Quero revisar</button>
+        </center>
+    </div>
+</div>
+												
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>

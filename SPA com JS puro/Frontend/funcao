@@ -1,0 +1,203 @@
+sc_lookup(dado, "SELECT idEvento, nomeEvento, home, texto,  CONVERT(varchar, dataInicio, 103), ativo FROM Evento WHERE ativo = 1 ORDER BY dataInicio");
+$es = {dado};
+$idEvento = $es[0][0];
+
+
+sc_lookup(dado, 'SELECT CONVERT(varchar, data, 103),  CONVERT(VARCHAR(5), horarioInicio, 108),CONVERT(VARCHAR(5), horatioFinal, 108) , nomePalestra, localizacao, descricao, flag, IdPalestra FROM dbo.Palestra WHERE evento_idEvento ='.$idEvento.' ORDER BY data ASC, horarioInicio ASC ');
+$rs = {dado};    
+
+sc_lookup(dado, "SELECT nome, curriculo, CPF FROM dbo.Palestrante ORDER BY nome");
+$ps={dado};
+
+
+/*
+anexo = localização
+imagem = flag sinalização(encerada ou ativa)
+
+$rs[0][0] = "10/05/2020"; //data da palestra 
+$rs[0][1] = "10:30"; // horario inicial 
+$rs[0][2] = "11:45"; // horario final 
+$rs[0][3] = "desenvolvimento e produção"; // titulo 
+$rs[0][4] = " Espaço Manaca";// localização 
+$rs[0][5] = "Grupo de Excelência em Administração Estratégica de 
+Pessoas & Tecnologias - GEAPE-Tech/CRA-SP"; // correalização. 
+$rs[0][6] = 0; // flag de sinalização(0 encerada 1 ativa) 
+$rs[0][7] = 1; // id da palestra
+
+$ps[0][0] = "Matheus Moura";// nome do palestrante
+$ps[0][1] = "alguma outra coisa";// descrição
+$ps[0][2] = 1; //cpf palestrante   
+
+
+
+*/
+function diaSemana($dia){
+	$data = explode("/", $dia);
+    $newDate = date("d-m-Y", strtotime($data[2]."/".$data[1]."/".$data[0]));
+	
+	if (setlocale(LC_TIME, 'pt')) {
+	PHP_EOL;
+    return strtoupper(strftime("%A", strtotime($newDate))); 
+	    
+    } 
+	
+}
+
+      $vet = array();
+        $t = 0;
+        $r = 0;
+        $html1 = '';
+
+        $tam = count($rs);
+
+        // cria array de quantas vezes cada data se repete 
+        for($i = 0; $i < $tam; $i++){
+            // a cada interação o elemento $rs[$i][0] sera comparado com o todos os outros elemento(i+1, i+ 2 ...)   
+            $qnt = 1;
+          for($y = $i + 1; $y < $tam; $y++){
+              //$Y sempre sera $i + 1(elemento que sera comparado ao $r[$i][0]) $y ira incrementar ate o passar por todos elementos do $rs 
+                if($rs[$i][0] == $rs[$y][0]){
+                    // se algum elemento dentro do $rs[$y][0] a partir de $i+1 for igual ao $rs[i][0] incrementa a variavel de quantidade
+                    $qnt++;
+                }
+           }
+           if($qnt > 1){
+               //se a quantidade for maior que 1 quer disser que possui datas repetidas, entao é necessario pular essa datas
+               //$i recebe o valor da quantidade menos 1, 
+               $i += $qnt - 1;
+           }
+           //ao final a quantidade é adicionada ao array
+           array_push($vet, $qnt);
+        }
+
+        $html1 .= '';
+                 //data não se repete
+            // variavel $r nessa parte do codigo é o indice que sera usado no array $rs
+
+        foreach ($vet as $value){
+            if($value == 1){
+            $html1 .= '
+            <div class="row">
+                <div class="col-sm-12">
+                    
+                        <div class="img-thumbnail" style="width: 100%; height: 100%; border-radius: 60px; background: linear-gradient(to right, #0098DB, #454C9A); color: White;">
+                          '.geraRadio($rs[$r][0]).' <b  style="margin-left: 10px">  '.$rs[$r][0].' | '.diaSemana($rs[$r][0]).'</b>
+                        </div>
+                    
+                </div>'.criarPalestra($rs, $r, $ps).'</div>';
+            //incrementa a variavel $r
+            $r++;
+            }
+            if($value > 1){
+                //data se repete
+                $html1 .= '
+                <div class="row">
+                    <div class="col-sm-12">
+                        
+                            <div class="img-thumbnail"
+                                style="width: 100%; height: 100%; border-radius: 60px; background: linear-gradient(to right, #0098DB, #454C9A); color: White;">
+                                '.geraRadio($rs[$r][0]).'<b  style="margin-left: 10px">'.$rs[$r][0].' | '.diaSemana($rs[$r][0]).'</b>
+                            </div>
+                        
+                    </div>';
+
+                // cria as palestras que estao na mesma data
+                for($i = 0; $i < $value; $i++){
+                    // o for recebe o $value(quantidade que a data repete) como condição de parada.
+                    // chama a função criarPalestra a cada nova chamada incrementa o $r 
+                    $html1 .=criarPalestra($rs, $r, $ps);
+                    //incrementa o $r
+                    $r++;
+                }
+                $html1 .='</div>';
+            }
+        }
+
+    return $html1;
+
+ //recebe o array $rs(array da palestra), $ps(array dos paletrantes) e $r( indice que representa a posição no array $rs)
+    //faz uma comparação entre o array do palestrante e o da palestra, para ver qual paestrante possui o mesmo id que a palestra.
+    function criarPalestrantes($rs, $r, $ps){
+        $html = '';
+		 sc_lookup(dado, "SELECT cpfPalestrante FROM dbo.Palestrante_Palestra WHERE idPalestra =".$rs[$r][7]);
+         $verif = {dado}; 
+		
+		
+        for($i = 0 ; $i < count($verif); $i++){
+            for($t = 0; $t < count($ps); $t++){
+			    if($verif[$i][0] == $ps[$t][2]){
+                //concatena esse trecho de html para todos os palestrantes que pertence a essa palesta.
+                $html .= '<p style="text-align: justify;color: black;"><strong>'.$ps[$t][0].'
+                    </strong>| '.$ps[$t][1].'</p>';
+            }else{
+                // se nenhum palestrante pertencer a palestra retorna uma String vazia.
+                $html .= '';
+            }
+		   }
+        }
+        return $html;
+    };
+
+    // gera o botão se a palestra estiver com a flag 1, se estiver com 0 retorna um "encerrado".
+    function geraRadio($rs){
+        //if($r == 1){
+            // se a palestra estiver com flag 1 pega a data horario(inicio e final) e aplica metodo "explode"
+
+            //$date = $data[0].$data[1].$data[2];
+            //$horaI= explode(":", $rs[$r][1]);
+            //$hi = $horaI[0].$horaI[1];
+            //$horaF= explode(":", $rs[$r][2]);
+            //$hf = $horaF[0].$horaF[1];
+			$id = "'palestra".$rs."'";
+            // retorna o trecho de html de um radioButto, com um "Name" unico e o value é o id da palestra.
+            return ' <input class="inputRadio" type="radio" id="palestra'.$rs.'" name="dia-'.$rs.'" value="'.$rs.'" onclick="update_array('.$id.')" >';
+        /*}else{
+            // retorna a label de "Encerrado"
+            return ' <label style="color: #B22222;"> Encerrado </label>';
+        }
+		*/
+    }
+    
+    // ira criar o campo da palestra com seu nome horario 
+    function criarPalestra($rs, $r, $ps){
+            $html = '
+        <div class="col-sm-12">
+            
+                <div class="panel-group" id="accordion'.$r.'">
+                    <div class="panel panel-default" style="border-radius: 25px; background-color: #F5F5F5;">
+                        <div class="panel-heading" style="border-radius: 25px; background-color: #F5F5F5;">  
+                            <h3 class="panel-title" >
+                               
+                                <a data-toggle="collapse" data-parent="#accordion'.$r.'" href="#collapse'.$r.'">
+                                
+									
+								<label>
+                                     '.$rs[$r][1].' às '.$rs[$r][2].'
+                                </label>
+                                    <span style="color: rgb(34, 109, 181)">'.$rs[$r][3].'</span> 
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapse'.$r.'" class="panel-collapse collapse " >
+                        <div class="panel-body">
+                            '.criarPalestrantes($rs, $r, $ps).'
+                           <!--
+                            <ul style="list-style-type: none;">
+                                <li style="text-align: justify;">
+                                   Local: <strong>'.$rs[$r][4].'</strong>
+                                </li>
+                            </ul>
+							-->
+                            <p style="text-align: justify;">
+                                '.$rs[$r][5].' 
+                            </p>
+                        </div>
+                    </div>
+				</div>
+                </div>
+           
+        </div>';
+        
+        return $html;
+    }; 
+       

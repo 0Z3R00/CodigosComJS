@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Certificado</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+
+        <form id="inscricaoSede" name="inscricaoSede" method="post" onsubmit="">
+            '. load_programacao() .'
+            <hr />
+            <div class="panel-heading">
+                <center>Gerar novo certificado</center>
+            </div>
+            <div class="row  justify-content-md-center">
+                
+                <div class="row" style="padding: 10px 25px 10px;">
+
+                    <div class="col-sm-6 col-lg-6  form-group">
+                        Nome: <input class="form-control" id="name" name="name" placeholder="Nome Completo" type="text"
+                            required />
+                    </div>
+                    <div class="col-sm-6 col-lg-6  form-group">
+                        CPF: <input class="form-control" id="cpf" name="cpf" placeholder="cpf" type="text"
+                            maxlength="14" required onKeyDown="Mascara(this,Cpf);" onKeyPress="Mascara(this,Cpf);"
+                            onKeyUp="Mascara(this,Cpf);" />
+                    </div>
+                </div>
+                
+            </div>
+            <center>
+                <button type="submit" id="btnConfirmar" type="button" class="btn btn-success">Eu
+                    confirmo</button>
+            </center>
+        </form>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
